@@ -1,0 +1,32 @@
+
+DROP table events;
+CREATE TABLE events (
+event_id SERIAL PRIMARY KEY,
+title varchar(255),
+starts TIMESTAMP,
+ends TIMESTAMP,
+venue_id integer REFERENCES venues
+);
+
+
+insert into events (title, starts, ends, venue_id, event_id) VALUES
+('LARP Club', '2012-02-15 17:30:00',  '2012-02-15 19:30:00', 2, 1),
+('April Fools Day', '2012-04-01 00:00:00', '2012-04-01 23:59:00', NULL, 2),
+('Christmas Day', '2012-12-25 00:00:00', '2012-12-25 23:59:00', NULL, 3)
+;
+
+-- All My tables
+select * from pg_class where relkind='r' and relowner=16384;
+
+
+SELECT country_name 
+FROM countries c
+WHERE c.country_code=(
+	SELECT v.country_code 
+	FROM events e JOIN venues v 
+		ON e.venue_id = v.venue_id 
+	WHERE e.title='LARP Club')
+;
+
+
+ALTER TABLE venues ADD COLUMN active BOOLEAN DEFAULT true;
