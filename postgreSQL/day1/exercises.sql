@@ -19,14 +19,10 @@ insert into events (title, starts, ends, venue_id, event_id) VALUES
 select * from pg_class where relkind='r' and relowner=16384;
 
 
-SELECT country_name 
+SELECT c.country_name
 FROM countries c
-WHERE c.country_code=(
-	SELECT v.country_code 
-	FROM events e JOIN venues v 
-		ON e.venue_id = v.venue_id 
-	WHERE e.title='LARP Club')
-;
+JOIN venues v ON c.country_code=v.country_code
+JOIN events e ON e.venue_id = v.venue_id AND e.title='LARP Club';
 
 
 ALTER TABLE venues ADD COLUMN active BOOLEAN DEFAULT true;
