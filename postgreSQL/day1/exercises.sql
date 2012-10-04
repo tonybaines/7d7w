@@ -1,4 +1,7 @@
 
+-- See http://www.codinghorror.com/blog/2007/10/a-visual-explanation-of-sql-joins.html
+-- for a good overview of teh different types of JOIN
+
 DROP table events;
 CREATE TABLE events (
 event_id SERIAL PRIMARY KEY,
