@@ -1,0 +1,4 @@
+../riak-1.2.1/dev/dev1/bin/riak start
+../riak-1.2.1/dev/dev2/bin/riak start
+../riak-1.2.1/dev/dev3/bin/riak start
+

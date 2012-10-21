@@ -1,0 +1,2 @@
+../riak-1.2.1/dev/dev2/bin/riak-admin cluster join dev1@127.0.0.1
+../riak-1.2.1/dev/dev3/bin/riak-admin cluster join dev1@127.0.0.1
