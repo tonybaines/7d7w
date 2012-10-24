@@ -1,0 +1,45 @@
+#!/bin/bash
+echo "A ping"
+curl http://localhost:8091/ping
+echo ""
+
+echo "A missing resource"
+curl -I http://localhost:8091/riak/no_bucket/no_key
+
+echo "Create/replace content"
+curl -v -X PUT http://localhost:8091/riak/favs/db \
+-H "Content-Type: text/html" \
+-d "<html><body><h1>My new favorite DB is RIAK</h1></body></html>"
+
+echo "PUT JSON content"
+curl -v -X PUT http://localhost:8091/riak/animals/ace \
+-H "Content-Type: application/json" \
+-d '{"nickname" : "The Wonder Dog", "breed" : "German Shepherd"}'
+
+echo "GET all buckets"
+curl -X GET http://localhost:8091/riak?buckets=true 
+echo " "
+
+
+echo "Create with a POST"
+curl -i -X POST http://localhost:8091/riak/animals \
+-H "Content-Type: application/json" \
+-d '{"nickname" : "Sergeant Stubby", "breed" : "Terrier"}'
+
+echo "Create a cage, and put (a link to) polly in it"
+curl -X PUT http://localhost:8091/riak/cages/1 \
+-H "Content-Type: application/json" \
+-H "Link: </riak/animals/polly>; riaktag=\"contains\"" \
+-d '{"room" : 101}'
+
+echo "Create another cage and tag it as 'next_to' room 101"
+curl -X PUT http://localhost:8091/riak/cages/2 \
+-H "Content-Type: application/json" \
+-H "Link:</riak/animals/ace>;riaktag=\"contains\",
+</riak/cages/1>;riaktag=\"next_to\"" \
+-d '{"room" : 101}'
+
+
+echo "Wildcards can be used in queries <bucket>,<tag>,<keep>"
+curl http://localhost:8091/riak/cages/1/_,_,_
+
